@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Teste.Models.Cliente>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Index</h2>
+@{
+    var grid = new WebGrid(source: Model, defaultSort: "Nome", rowsPerPage: 10);
+}
+<div class="row">
+    @Html.ActionLink("Inserir Cliente", "Inserir")
+</div>
+
+<div id="grid">
+    @grid.GetHtml(
+                    tableStyle: "table",
+                    headerStyle: "head",
+                    alternatingRowStyle: "alt",
+                    columns: grid.Columns(
+                        grid.Column("Nome", header: "Nome"),
+                        grid.Column("Endereco", header: "Endereço"),
+                        grid.Column("CEP", header: "CEP"),
+                        grid.Column("Sexo", header: "Sexo"),
+                        grid.Column("DataNascimento", header: "Data de Nascimento"),
+                        grid.Column(header: "Ação", canSort: false,
+
+
+                        format: @<text>
+                            @Html.ActionLink("Alterar", "Alterar") |
+                            @Html.ActionLink("Excluir", "Excluir")
+                        </text>
+                                                   )
+                                                 )
+                                             )
+</div>
