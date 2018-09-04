@@ -1,0 +1,34 @@
+[
+  {
+    "Nome": "Pedro",
+    "Endereco": "Rua Capitão Paulo",
+    "CEP": "21635-110",
+    "Sexo": "Masculino",
+    "DataNascimento": "2000-05-15T00:00:00",
+    "Id": 0
+  },
+  {
+    "Nome": "Patrick",
+    "Endereco": "Rua Lídia",
+    "CEP": "26587-000",
+    "Sexo": "Masculino",
+    "DataNascimento": "1994-02-02T00:00:00",
+    "Id": 1
+  },
+  {
+    "Nome": "Bruno",
+    "Endereco": "Rua General Augusto Sisson",
+    "CEP": "21635-220",
+    "Sexo": "Masculino",
+    "DataNascimento": "1999-03-22T00:00:00",
+    "Id": 2
+  },
+  {
+    "Nome": "Teste",
+    "Endereco": "mdssiadno",
+    "CEP": "dasdmasdpma",
+    "Sexo": "daspdmapsdmap",
+    "DataNascimento": "0111-01-01T00:00:00",
+    "Id": 4
+  }
+]
