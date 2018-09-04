@@ -33,7 +33,10 @@ namespace Teste.Utils
             {
                 string json = File.ReadAllText(caminhoDoArquivo);
                 lista = JsonConvert.DeserializeObject<List<T>>(json);
-                return lista[id];
+                for (int i = 0; i < lista.Count; i++)
+                {
+                    if (lista[i].Id == id) return lista[i];
+                }
             }
             return lista.FirstOrDefault();
         }
@@ -89,7 +92,10 @@ namespace Teste.Utils
                 // Transforma o arquivo em json e remove
                 string json = File.ReadAllText(caminhoDoArquivo);
                 List<T> lista = JsonConvert.DeserializeObject<List<T>>(json);
-                lista[id] = domain;
+                for (int i = 0; i < lista.Count; i++)
+                {
+                    if (lista[i].Id == id) lista[i] = domain;
+                }
                 // Salva o arquivo de novo
                 json = JsonConvert.SerializeObject(lista, Formatting.Indented);
                 File.WriteAllText(caminhoDoArquivo, json);
@@ -103,7 +109,10 @@ namespace Teste.Utils
                 // Transforma o arquivo em json e remove
                 string json = File.ReadAllText(caminhoDoArquivo);
                 List<T> lista = JsonConvert.DeserializeObject<List<T>>(json);
-                lista.RemoveAt(id);
+                for (int i = 0; i < lista.Count; i++)
+                {
+                    if (lista[i].Id == id) lista.RemoveAt(i);
+                }
                 // Salva o arquivo de novo
                 json = JsonConvert.SerializeObject(lista, Formatting.Indented);
                 File.WriteAllText(caminhoDoArquivo, json);

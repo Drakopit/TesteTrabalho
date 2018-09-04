@@ -8,7 +8,7 @@ namespace Teste.Controllers
     public class HomeController : Controller
     {
         private List<Cliente> _clientes = new List<Cliente>();
-        private readonly string filePath = "D:\\Lista_De_Clientes.json";
+        private readonly string filePath = "D:\\TesteTrabalho\\Lista_De_Clientes.json";
 
         public ActionResult Index()
         {
