@@ -12,7 +12,7 @@ namespace Teste.Controllers
 
         public ActionResult Index()
         {
-            _clientes = JsonBD<Cliente>.ObterArquivo(filePath);
+            _clientes = OldSchoolDataBase<Cliente>.ObterLista(filePath);
             return View(_clientes);
         }
 
@@ -26,33 +26,33 @@ namespace Teste.Controllers
         public ActionResult Inserir(Cliente cliente)
         {
 
-            JsonBD<Cliente>.Inserir(filePath, cliente);
+            OldSchoolDataBase<Cliente>.Inserir(filePath, cliente);
             return View(cliente);
         }
 
         [HttpGet]
         public ActionResult Alterar(int id)
         {
-            return View(JsonBD<Cliente>.Obter(filePath, id));
+            return View(OldSchoolDataBase<Cliente>.Obter(filePath, id));
         }
 
         [HttpPost]
         public ActionResult Alterar(int id, Cliente cliente)
         {
-            JsonBD<Cliente>.Alterar(filePath, id, cliente);
+            OldSchoolDataBase<Cliente>.Alterar(filePath, id, cliente);
             return View(cliente);
         }
 
         [HttpGet]
         public ActionResult Excluir(int id)
         {
-            return View(JsonBD<Cliente>.Obter(filePath, id));
+            return View(OldSchoolDataBase<Cliente>.Obter(filePath, id));
         }
 
         [HttpPost, ActionName("Excluir")]
         public ActionResult ExcluirConfirmado(int id)
         {
-            JsonBD<Cliente>.ExcluirPorId(filePath, id);
+            OldSchoolDataBase<Cliente>.ExcluirPorId(filePath, id);
             return RedirectToAction("Index");
         }
     }

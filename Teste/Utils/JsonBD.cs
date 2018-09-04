@@ -6,10 +6,15 @@ using Teste.Models;
 
 namespace Teste.Utils
 {
-    public static class JsonBD<T> where T : ModelBase
+    public static class OldSchoolDataBase<T> where T : ModelBase
     {
-        // Funcionando
-        public static List<T> ObterArquivo(string caminhoDoArquivo)
+        /// <summary>
+        ///     Obtem uma lista com todos
+        ///     os objetos do arquivo
+        /// </summary>
+        /// <param name="caminhoDoArquivo"></param>
+        /// <returns></returns>
+        public static List<T> ObterLista(string caminhoDoArquivo)
         {
             List<T> lista = new List<T>();
 
@@ -25,6 +30,13 @@ namespace Teste.Utils
             return lista;
         }
 
+        /// <summary>
+        ///     Obtem um objeto específico
+        ///     do arquivo Json
+        /// </summary>
+        /// <param name="caminhoDoArquivo"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public static T Obter(string caminhoDoArquivo, int id)
         {
             List<T> lista = new List<T>();
@@ -41,7 +53,11 @@ namespace Teste.Utils
             return lista.FirstOrDefault();
         }
 
-        // Funcionando: Inserir um objeto
+        /// <summary>
+        ///     Insere um objeto no arquivo Json
+        /// </summary>
+        /// <param name="caminhoDoArquivo"></param>
+        /// <param name="domain"></param>
         public static void Inserir(string caminhoDoArquivo, T domain)
         {
             if (File.Exists(caminhoDoArquivo))
@@ -52,18 +68,10 @@ namespace Teste.Utils
                 if (lista.Count > 0)
                 {
                     int num = lista.ElementAt(0).Id;
-                    for (int i = 0; i < lista.Count; i++)
-                    {
-                        if (num < lista[i].Id)
-                        {
-                            num = lista[i].Id;
-                        }
-                    }
+
+                    for (int j = 0; j < lista.Count; j++)
+                        if (num < lista[j].Id) num = lista[j].Id;
                     domain.Id = (num + 1);
-                }
-                else
-                {
-                    domain.Id = 0;
                 }
                 lista.Add(domain);
                 json = JsonConvert.SerializeObject(lista, Formatting.Indented);
@@ -71,63 +79,70 @@ namespace Teste.Utils
             }
         }
 
-        // Funcionando: Inserir um objeto
+        /// <summary>
+        ///     Insere uma lista de determinado
+        ///     objeto na arquivo JSON
+        /// </summary>
+        /// <param name="caminhoDoArquivo"></param>
+        /// <param name="domain"></param>
         public static void InserirLista(string caminhoDoArquivo, List<T> domain)
         {
             if (File.Exists(caminhoDoArquivo))
-            {
-                List<T> lista = new List<T>();
-                string json = File.ReadAllText(caminhoDoArquivo);
-                lista = JsonConvert.DeserializeObject<List<T>>(json);
-                lista.AddRange(domain);
-                json = JsonConvert.SerializeObject(lista, Formatting.Indented);
-                File.WriteAllText(caminhoDoArquivo, json);
-            }
+                foreach (var item in domain)
+                    Inserir(caminhoDoArquivo, item);
         }
 
+        /// <summary>
+        ///     Altera um objeto do arquivo Json
+        /// </summary>
+        /// <param name="caminhoDoArquivo"></param>
+        /// <param name="id"></param>
+        /// <param name="domain"></param>
         public static void Alterar(string caminhoDoArquivo, int id, T domain)
         {
             if (File.Exists(caminhoDoArquivo))
             {
-                // Transforma o arquivo em json e remove
                 string json = File.ReadAllText(caminhoDoArquivo);
                 List<T> lista = JsonConvert.DeserializeObject<List<T>>(json);
                 for (int i = 0; i < lista.Count; i++)
-                {
                     if (lista[i].Id == id) lista[i] = domain;
-                }
-                // Salva o arquivo de novo
                 json = JsonConvert.SerializeObject(lista, Formatting.Indented);
                 File.WriteAllText(caminhoDoArquivo, json);
             }
         }
 
+        /// <summary>
+        ///     Exclui um objeto específico do
+        ///     arquivo Json pelo id passado
+        /// </summary>
+        /// <param name="caminhoDoArquivo"></param>
+        /// <param name="id"></param>
         public static void ExcluirPorId(string caminhoDoArquivo, int id)
         {
             if (File.Exists(caminhoDoArquivo))
             {
-                // Transforma o arquivo em json e remove
                 string json = File.ReadAllText(caminhoDoArquivo);
                 List<T> lista = JsonConvert.DeserializeObject<List<T>>(json);
                 for (int i = 0; i < lista.Count; i++)
-                {
                     if (lista[i].Id == id) lista.RemoveAt(i);
-                }
-                // Salva o arquivo de novo
                 json = JsonConvert.SerializeObject(lista, Formatting.Indented);
                 File.WriteAllText(caminhoDoArquivo, json);
             }
         }
 
+        /// <summary>
+        ///     Exclui um objeto, passando-o
+        ///     como parametro
+        /// </summary>
+        /// <param name="caminhoDoArquivo"></param>
+        /// <param name="domain"></param>
         public static void Excluir(string caminhoDoArquivo, T domain)
         {
             if (File.Exists(caminhoDoArquivo))
             {
-                // Transforma o arquivo em json e remove
                 string json = File.ReadAllText(caminhoDoArquivo);
                 List<T> lista = JsonConvert.DeserializeObject<List<T>>(json);
                 lista.Remove(domain);
-                // Salva o arquivo de novo
                 json = JsonConvert.SerializeObject(lista, Formatting.Indented);
                 File.WriteAllText(caminhoDoArquivo, json);
             }
