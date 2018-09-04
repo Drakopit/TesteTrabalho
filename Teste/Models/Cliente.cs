@@ -3,9 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Teste.Models
 {
-    public class Cliente
+    public class Cliente : ModelBase
     {
-        public int Id { get; set; }
         [Required(ErrorMessage = "O nome é obrigatório", AllowEmptyStrings = false)]
         public string Nome { get; set; }
         [Required(ErrorMessage = "O endereço é obrigatório", AllowEmptyStrings = false)]

@@ -1,5 +1,4 @@
-﻿using SmartIT.Employee.MockDB;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using Teste.Models;
 using Teste.Utils;
@@ -11,41 +10,50 @@ namespace Teste.Controllers
         private List<Cliente> _clientes = new List<Cliente>();
         private readonly string filePath = "D:\\Lista_De_Clientes.json";
 
-        [HttpGet]
         public ActionResult Index()
         {
-            _clientes = JsonBD.ObterArquivo<Cliente>(filePath);
+            _clientes = JsonBD<Cliente>.ObterArquivo(filePath);
             return View(_clientes);
         }
 
+        [HttpGet]
+        public ActionResult Inserir()
+        {
+            return View();
+        }
+
+        [HttpPost]
         public ActionResult Inserir(Cliente cliente)
         {
-            if (cliente != null)
-            {
-                JsonBD.Inserir<Cliente>(filePath, cliente);
-                return RedirectToAction("Index");
-            }
+
+            JsonBD<Cliente>.Inserir(filePath, cliente);
             return View(cliente);
         }
 
+        [HttpGet]
+        public ActionResult Alterar(int id)
+        {
+            return View(JsonBD<Cliente>.Obter(filePath, id));
+        }
+
+        [HttpPost]
         public ActionResult Alterar(int id, Cliente cliente)
         {
-            if (cliente != null)
-            {
-                JsonBD.Alterar<Cliente>(filePath, id, cliente);
-                return RedirectToAction("Index");
-            }
+            JsonBD<Cliente>.Alterar(filePath, id, cliente);
             return View(cliente);
         }
 
+        [HttpGet]
         public ActionResult Excluir(int id)
         {
-            if (id != null)
-            {
-                JsonBD.Excluir<Cliente>(filePath, id);
-                return RedirectToAction("Index");
-            }
-            return View();
+            return View(JsonBD<Cliente>.Obter(filePath, id));
+        }
+
+        [HttpPost, ActionName("Excluir")]
+        public ActionResult ExcluirConfirmado(int id)
+        {
+            JsonBD<Cliente>.ExcluirPorId(filePath, id);
+            return RedirectToAction("Index");
         }
     }
 }

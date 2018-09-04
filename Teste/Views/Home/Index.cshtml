@@ -26,8 +26,8 @@
 
 
                         format: @<text>
-                            @Html.ActionLink("Alterar", "Alterar") |
-                            @Html.ActionLink("Excluir", "Excluir")
+                            @Html.ActionLink("Alterar", "Alterar", new { id = item.Id }) |
+                            @Html.ActionLink("Excluir", "Excluir", new { id = item.Id })
                         </text>
                                                    )
                                                  )
