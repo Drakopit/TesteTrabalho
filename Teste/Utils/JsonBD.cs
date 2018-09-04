@@ -5,7 +5,7 @@ using System.IO;
 
 namespace Teste.Utils
 {
-    public static class Utilidades
+    public static class JsonBD
     {
         // Funcionando
         public static List<T> ObterArquivo<T>(string caminhoDoArquivo)
@@ -14,13 +14,7 @@ namespace Teste.Utils
 
             if (File.Exists(caminhoDoArquivo))
             {
-                String[] linhas = File.ReadAllLines(caminhoDoArquivo);
-                string json = "";
-
-                foreach (var linha in linhas)
-                {
-                    json += linha;
-                }
+                string json = File.ReadAllText(caminhoDoArquivo);
                 lista = JsonConvert.DeserializeObject<List<T>>(json);
             }
             else
@@ -30,7 +24,7 @@ namespace Teste.Utils
             return lista;
         }
 
-        // Funcionando
+        // Funcionando: Inserir um objeto
         public static void Inserir<T>(string caminhoDoArquivo, T domain)
         {
             if (File.Exists(caminhoDoArquivo))
@@ -39,7 +33,21 @@ namespace Teste.Utils
                 string json = File.ReadAllText(caminhoDoArquivo);
                 lista = JsonConvert.DeserializeObject<List<T>>(json);
                 lista.Add(domain);
-                json = JsonConvert.SerializeObject(lista);
+                json = JsonConvert.SerializeObject(lista, Formatting.Indented);
+                File.WriteAllText(caminhoDoArquivo, json);
+            }
+        }
+
+        // Funcionando: Inserir um objeto
+        public static void InserirLista<T>(string caminhoDoArquivo, List<T> domain)
+        {
+            if (File.Exists(caminhoDoArquivo))
+            {
+                List<T> lista = new List<T>();
+                string json = File.ReadAllText(caminhoDoArquivo);
+                lista = JsonConvert.DeserializeObject<List<T>>(json);
+                lista.AddRange(domain);
+                json = JsonConvert.SerializeObject(lista, Formatting.Indented);
                 File.WriteAllText(caminhoDoArquivo, json);
             }
         }
@@ -53,7 +61,7 @@ namespace Teste.Utils
                 List<T> lista = JsonConvert.DeserializeObject<List<T>>(json);
                 lista[id] = domain;
                 // Salva o arquivo de novo
-                json = JsonConvert.SerializeObject(lista);
+                json = JsonConvert.SerializeObject(lista, Formatting.Indented);
                 File.WriteAllText(caminhoDoArquivo, json);
             }
         }
@@ -67,7 +75,7 @@ namespace Teste.Utils
                 List<T> lista = JsonConvert.DeserializeObject<List<T>>(json);
                 lista.RemoveAt(id);
                 // Salva o arquivo de novo
-                json = JsonConvert.SerializeObject(lista);
+                json = JsonConvert.SerializeObject(lista, Formatting.Indented);
                 File.WriteAllText(caminhoDoArquivo, json);
             }
         }

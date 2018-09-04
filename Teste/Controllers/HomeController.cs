@@ -14,7 +14,7 @@ namespace Teste.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            _clientes = Utilidades.ObterArquivo<Cliente>(filePath);
+            _clientes = JsonBD.ObterArquivo<Cliente>(filePath);
             return View(_clientes);
         }
 
@@ -22,7 +22,7 @@ namespace Teste.Controllers
         {
             if (cliente != null)
             {
-                Utilidades.Inserir<Cliente>(filePath, cliente);
+                JsonBD.Inserir<Cliente>(filePath, cliente);
                 return RedirectToAction("Index");
             }
             return View(cliente);
@@ -32,7 +32,7 @@ namespace Teste.Controllers
         {
             if (cliente != null)
             {
-                Utilidades.Alterar<Cliente>(filePath, id, cliente);
+                JsonBD.Alterar<Cliente>(filePath, id, cliente);
                 return RedirectToAction("Index");
             }
             return View(cliente);
@@ -42,7 +42,7 @@ namespace Teste.Controllers
         {
             if (id != null)
             {
-                Utilidades.Excluir<Cliente>(filePath, id);
+                JsonBD.Excluir<Cliente>(filePath, id);
                 return RedirectToAction("Index");
             }
             return View();
